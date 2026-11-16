@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Will you go on a date with me? 💌</title>
+<style>
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--pink:#ff5c9d;--deep:#d6336c;--ink:#6b2347}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:linear-gradient(160deg,#ffe3ee,#ffd0e4 45%,#e9d5ff);font-family:'Trebuchet MS','Comic Sans MS',system-ui,sans-serif;color:var(--ink);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.sticker{display:inline-block;filter:drop-shadow(3px 0 #fff) drop-shadow(-3px 0 #fff) drop-shadow(0 3px #fff) drop-shadow(0 -3px #fff) drop-shadow(0 6px 6px rgba(120,30,70,.25))}
+.bg{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.bg .sticker{position:absolute;font-size:34px;opacity:.9;animation:drift var(--t) ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0) rotate(-12deg)}to{transform:translate(var(--x),-40px) rotate(12deg)}}
+main{position:relative;min-height:100%;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{width:100%;max-width:420px;background:rgba(255,255,255,.78);backdrop-filter:blur(6px);border:3px dashed #fff;border-radius:32px;padding:28px 22px;text-align:center;box-shadow:0 14px 40px rgba(214,51,108,.25)}
+.hero{font-size:96px;line-height:1;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(4deg)}}
+h1{font-size:clamp(26px,7vw,34px);margin:14px 0 6px;color:var(--deep)}
+p{margin:6px 0 18px;font-size:17px}
+.row{position:relative;display:flex;gap:14px;justify-content:center;align-items:center;min-height:90px}
+button,.btn{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;padding:14px 28px;font-size:18px;transition:transform .25s,box-shadow .25s;text-decoration:none;display:inline-block}
+#yes{background:linear-gradient(135deg,#ff7eb3,#ff4d8d);color:#fff;box-shadow:0 8px 0 #c42b6a,0 12px 20px rgba(196,43,106,.3);transform-origin:center}
+#yes:active{transform:translateY(4px) scale(var(--s,1))}
+#no{background:#fff;color:var(--ink);box-shadow:0 5px 0 #f0c3d6;transition:left .25s,top .25s,transform .25s}
+.hide{display:none!important}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:10px 0 16px}
+.chip{background:#fff;color:var(--ink);padding:10px 14px;font-size:16px;box-shadow:0 4px 0 #f0c3d6}
+.chip.on{background:var(--pink);color:#fff;box-shadow:0 4px 0 #c42b6a;transform:scale(1.06) rotate(-2deg)}
+.pick{display:flex;gap:10px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
+input{font:inherit;padding:10px 12px;border-radius:14px;border:2px solid #ffc2da;background:#fff;color:var(--ink)}
+.send{background:linear-gradient(135deg,#34d399,#10b981);color:#fff;box-shadow:0 7px 0 #0b8a62}
+.fx{position:fixed;top:-40px;pointer-events:none;z-index:9;font-size:26px;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg)}}
+.small{font-size:14px;opacity:.75;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="bg" id="bg"></div>
+<main>
+<section class="card" id="ask">
+<div class="hero sticker" id="face">🧸</div>
+<h1 id="title"></h1>
+<p id="sub">I made this just for you… so please be nice 🥺</p>
+<div class="row" id="row">
+<button id="yes">Yes! 💖</button>
+<button id="no">No 💔</button>
+</div>
+</section>
+
+<section class="card hide" id="done">
+<div class="hero sticker">🥰</div>
+<h1>Yayyy!! 🎉</h1>
+<p>You made me the happiest person ever. Now pick our date plan:</p>
+<div class="chips" id="chips"></div>
+<div class="pick">
+<input type="date" id="d" aria-label="Date"><input type="time" id="t" aria-label="Time">
+</div>
+<a class="btn send" id="send" target="_blank" rel="noopener">Send my answer 💌</a>
+<div class="small">Tap the button and your message will be ready to send 🌷</div>
+</section>
+</main>
+
+<script>
+// ✎ Change the name here
+const NAME = "Yugal";
+const $ = id => document.getElementById(id);
+$('title').textContent = `${NAME}, will you go on a date with me? 🌷`;
+
+const SET = ['🧸','🌸','💖','🍓','🐰','✨','🍰','🌷','🐻','🦋','🍭','🎀','🐥','🌈','☁️','🍒'];
+for (let i = 0; i < 18; i++) {
+  const s = document.createElement('span');
+  s.className = 'sticker';
+  s.textContent = SET[i % SET.length];
+  s.style.cssText = `left:${Math.random()*92}%;top:${Math.random()*92}%;--t:${4+Math.random()*4}s;--x:${(Math.random()-.5)*60}px;font-size:${26+Math.random()*20}px`;
+  $('bg').appendChild(s);
+}
+
+const faces = ['🥺','😢','😭','💔','🥹','😿','🙏','🧸'];
+const lines = [
+  'Are you sure? 🥺','Pretty please? 🍓','Think again, cutie 🧸','I’ll bring snacks 🍫',
+  'Don’t break my heart 💔','I’ll be very sweet 🐰','Last chance… 🥹','Okay, you can’t say no 😘'
+];
+let n = 0, dodging = false;
+
+function confetti(count = 60) {
+  for (let i = 0; i < count; i++) {
+    const f = document.createElement('span');
+    f.className = 'fx sticker';
+    f.textContent = SET[Math.floor(Math.random()*SET.length)];
+    f.style.left = Math.random()*100 + 'vw';
+    f.style.setProperty('--dx', (Math.random()-.5)*200 + 'px');
+    f.style.animationDuration = 2.5 + Math.random()*2.5 + 's';
+    f.style.animationDelay = Math.random()*.8 + 's';
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 6000);
+  }
+}
+
+function yes() {
+  $('ask').classList.add('hide');
+  $('done').classList.remove('hide');
+  confetti();
+}
+$('yes').addEventListener('click', yes);
+
+function dodge(e) {
+  if (e) e.preventDefault();
+  n++;
+  $('face').textContent = faces[Math.min(n-1, faces.length-1)];
+  $('sub').textContent = lines[Math.min(n-1, lines.length-1)];
+  const y = $('yes');
+  const s = Math.min(1 + n*.16, 2);
+  y.style.setProperty('--s', s);
+  y.style.transform = `scale(${s})`;
+  y.style.margin = `${n*4}px ${n*6}px`;
+  const no = $('no');
+  if (n >= 8) { no.textContent = 'Yes 🥰'; no.onclick = yes; no.style.position = ''; return; }
+  no.style.position = 'fixed';
+  const w = no.offsetWidth || 90, h = no.offsetHeight || 50;
+  no.style.left = Math.max(8, Math.random()*(innerWidth - w - 16)) + 'px';
+  no.style.top = Math.max(8, Math.random()*(innerHeight - h - 16)) + 'px';
+  no.style.fontSize = Math.max(12, 18 - n) + 'px';
+}
+$('no').addEventListener('click', dodge);
+$('no').addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' && n < 8) dodge(); });
+
+const plans = ['Movie 🎬','Coffee ☕','Dinner 🍝','Long walk 🌅','Ice cream 🍦','Surprise me 🎁'];
+let plan = plans[0];
+plans.forEach((p, i) => {
+  const b = document.createElement('button');
+  b.className = 'chip' + (i === 0 ? ' on' : '');
+  b.textContent = p;
+  b.onclick = () => { plan = p; [...$('chips').children].forEach(c => c.classList.remove('on')); b.classList.add('on'); link(); };
+  $('chips').appendChild(b);
+});
+function link() {
+  const d = $('d').value, t = $('t').value;
+  let text = `Yes! 🥰💖 I’d love to go on a date with you. Plan: ${plan}`;
+  if (d) text += ` on ${d}`;
+  if (t) text += ` at ${t}`;
+  $('send').href = 'https://wa.me/?text=' + encodeURIComponent(text);
+}
+$('d').oninput = $('t').oninput = link;
+link();
+</script>
+</body>
+</html>
